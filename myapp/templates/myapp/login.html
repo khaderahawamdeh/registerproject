@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+<link href="{% static 'myapp/styles.css' %}" rel="stylesheet" type="text/css">
+    
+</head>
+<body>
+
+<div class="loginBox">
+    <img class="user" src="https://cdn-icons-png.flaticon.com/512/354/354637.png" height="100px" width="100px">
+    <h3>Sign in here</h3>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="inputBox">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {{ form.password.label_tag }}
+            {{ form.password }}
+        </div>
+        <input type="submit" name="" value="Login">
+    </form>
+    <a href="{% url 'password_reset' %}">Forget Password</a>
+        <div class="text-center">
+        <a href="{% url 'register' %}" style="color: #59238F;">Sign-Up</a>
+    </div>
+</div>
+
+</body>
+</html>

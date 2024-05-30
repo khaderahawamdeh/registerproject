@@ -1,0 +1,64 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Schedule</h2>
+    {% if courses_with_schedules %}
+        {% for course in courses_with_schedules %}
+        <div class="card">
+            <div class="card-content">
+                <h3>{{ course.course.name }}</h3>
+                <p><span class="label">Day:</span> {{ course.schedule.days }}</p>
+                <p><span class="label">Time:</span> {{ course.schedule.startTime|time:"H:i" }} - {{ course.schedule.endTime|time:"H:i" }}</p>
+                <p><span class="label">Classroom:</span> {{ course.schedule.roomNo }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="card">
+            <div class="card-content">
+                <p>No scheduled courses</p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+<style>
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 10px;
+        color: #FFF;
+        font-family: Arial, sans-serif;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .card-content h3 {
+        margin-top: 0;
+        color: #ADF; /* Light blue color for headings */
+    }
+
+    .card-content p {
+        margin: 5px 0;
+        line-height: 1.5;
+    }
+
+    .label {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+</style>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

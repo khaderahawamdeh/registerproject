@@ -1,0 +1,30 @@
+{% extends "myapp/base.html" %}
+{% csrf_token %}
+{% block content %}
+    <div class="container mt-3">
+        <h2 class="mb-3">Search Results</h2>
+        <p>Searching for: "<strong>{{ query }}</strong>"</p>
+        {% if courses %}
+            <div class="list-group">
+                {% for course in courses %}
+                  
+                    <a href="{% url 'course_schedule' course.id %}" class="list-group-item list-group-item-action">
+                        {{ course.name }} ({{ course.code }}) by {{ course.instructor }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Invalid Course Name,No or instructor name.
+            </div>
+        {% endif %}
+        <a href="{% url 'home' %}" class="btn btn-primary mt-3">home</a>
+    </div>
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

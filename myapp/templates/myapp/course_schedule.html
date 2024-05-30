@@ -1,0 +1,44 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+    <div class="course-schedule">
+        <h2>Schedule for {{ course.name }}</h2> 
+        <p><strong>Code:</strong> {{ course.code }}</p>
+        <p><strong>Instructor:</strong> {{ course.instructor }}</p>
+        <p><strong>Days:</strong> {{ schedule.days }}</p>
+        <p><strong>Time:</strong> {{ schedule.startTime }} - {{ schedule.endTime }}</p>
+        <p><strong>Room:</strong> {{ schedule.roomNo }}</p>
+        <p><strong>Description:</strong> {{ course.description }}</p>
+        <h5><strong>Prerequisites:</strong> 
+            {% if course.prerequisites.exists %}
+                <ul>
+                    {% for prerequisite in course.prerequisites.all %}
+                        <li>{{ prerequisite.name }} ({{ prerequisite.code }})</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                None
+            {% endif %}
+            </h5> 
+        <p><strong>Available Spots:</strong> {{ available_spots }}</p>
+        {% if user.is_authenticated %}
+        <form action="{% url 'register_course' course.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Register for Course</button>
+        </form>
+        
+        {% endif %}
+    </div>
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %} try:
+    schedule = CourseSchedule.objects.get(course=course)
+except CourseSchedule.DoesNotExist:
+    messages.error(request, "No schedule available for this course.")
+    return redirect('course_detail', course_id=course_id)
+
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

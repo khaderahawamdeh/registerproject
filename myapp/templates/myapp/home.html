@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'Static/myapp/homestyle.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>Welcome to a world of learning! </h1>
+    <h4>Search for your courses from here</h4>
+</div>
+
+<form action="{% url 'search' %}" method="get" class="search-form">
+    {% csrf_token %}
+    <input type="text" name="query" placeholder="Enter the instructor name, course name or no." required class="form-control">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<!-- Notifications -->
+{% for notification in notifications %}
+    <div class="alert alert-info" role="alert">
+        {{ notification.message }}
+        {% if notification.deadline_date %}
+            <br>DeadLine: {{ notification.deadline_date|date:"F d, Y" }}.
+        {% endif %}
+    </div>
+{% endfor %}
+{% endblock %}
